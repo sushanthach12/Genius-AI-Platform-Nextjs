@@ -7,8 +7,9 @@ import { usePathname } from "next/navigation"
 import { Code, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, Video } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import FreeCounter from "./free-counter";
 
-const montserrat = Montserrat({weight : '600', subsets: ['latin'], display: 'swap', adjustFontFallback: true})
+const montserrat = Montserrat({ weight: '600', subsets: ['latin'], display: 'swap', adjustFontFallback: true })
 
 const routes = [
 	{
@@ -55,12 +56,20 @@ const routes = [
 
 ]
 
-const SideBar = () => {
+type SidebarProps = {
+	apiLimitCount: number;
+	isPro: boolean;
+}
+
+const SideBar = ({
+	apiLimitCount = 0,
+	isPro = false
+}: SidebarProps) => {
 
 	const pathName = usePathname();
 
 	return (
-		<div className="space-y-4 flex flex-col h-full bg-[#111827] text-white">
+		<div className="space-y-4 flex flex-col h-full bg-[#111827] text-white py-3">
 
 			<div className="px-3 py-4 flex-1">
 				<Link href={"/dashboard"} className="flex items-center pl-3 mb-14">
@@ -73,15 +82,20 @@ const SideBar = () => {
 
 				<div className="space-y-1">
 					{routes.map((route) => (
-						<Link href={route.href} key={route.href} className={cn("text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition", pathName === route.href? "text-white bg-white/10": "")}>
+						<Link href={route.href} key={route.href} className={cn("text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition", pathName === route.href ? "text-white bg-white/10" : "")}>
 							<div className="flex items-center flex-1">
-								<route.icon className={cn("h-5 w-5 mr-3", route.color)}/>
+								<route.icon className={cn("h-5 w-5 mr-3", route.color)} />
 								{route.label}
 							</div>
 						</Link>
 					))}
 				</div>
 			</div>
+
+			<FreeCounter 
+				apiLimitCount={apiLimitCount}
+				isPro={isPro}
+			/>
 
 		</div>
 	)
