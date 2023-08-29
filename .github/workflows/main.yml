@@ -23,3 +23,16 @@ jobs:
                 yarn run lint
               env:
                 CI: true
+    
+    securityCheck:
+        name: Security Check
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check for Security
+              run: |
+                echo "Running Security Checks...1"
+                sleep 5s;
+                echo "Running Security Checks...2"
+                sleep 5s;
+                echo "Running Security Checks...3"
+                sleep 5s;
